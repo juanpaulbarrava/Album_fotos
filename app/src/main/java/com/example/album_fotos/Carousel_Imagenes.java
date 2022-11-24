@@ -65,6 +65,7 @@ public class Carousel_Imagenes extends DialogFragment {
         carouselView.setFillColor(Color.rgb(117, 245, 66));
         carouselView.setPageCount(imagenes.size());
         carouselView.setImageListener(imageListener());
+        carouselView.setCurrentItem(position);
         return view;
     }
 

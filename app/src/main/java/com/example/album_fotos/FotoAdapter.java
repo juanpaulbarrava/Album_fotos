@@ -38,7 +38,7 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
         holder.image.setImageBitmap(bit);
 
         holder.image.setOnClickListener(view -> {
-            AbrirCarousel_Imagenes();
+            AbrirCarousel_Imagenes(position);
 
         }
         );
@@ -47,10 +47,10 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
 
     }
 
-    private void AbrirCarousel_Imagenes()
+    private void AbrirCarousel_Imagenes(int position)
     {
 
-        Carousel_Imagenes carousel_imagenes = new Carousel_Imagenes(Lista);
+        Carousel_Imagenes carousel_imagenes = new Carousel_Imagenes(Lista, position);
         carousel_imagenes.show(((FragmentActivity) context).getSupportFragmentManager(),"hgy");
     }
 
