@@ -38,9 +38,11 @@ public class Carousel_Imagenes extends DialogFragment {
     private PhotoViewAttacher zoom = null;
     ArrayList<Bitmap> imagenes;
     int position;
+    ImagenesFragment ventana;
 
 
-    public Carousel_Imagenes(ArrayList<Bitmap> imagenes, int position) {
+    public Carousel_Imagenes(ImagenesFragment ventana,ArrayList<Bitmap> imagenes, int position) {
+        this.ventana = ventana;
         this.position = position;
         this.imagenes = imagenes;
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -56,7 +58,9 @@ public class Carousel_Imagenes extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_carousel_imagenes, container, false);
         Button regresar = view.findViewById(R.id.boton_salir_carousel);
         Button eliminar = view.findViewById(R.id.eliminar_imagen_actual);
-
+        regresar.setOnClickListener(view1 -> dismiss());
+        eliminar.setOnClickListener(view1 -> dismiss());
+        eliminar.setOnClickListener(imagenes -> EliminarImagen());
 
         carouselView = view.findViewById(R.id.carousel);
 
@@ -76,6 +80,14 @@ public class Carousel_Imagenes extends DialogFragment {
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             zoom = new PhotoViewAttacher(imageView);
         };
+    }
+
+    private  void EliminarImagen(){
+        imagenes.remove(carouselView.getCurrentItem());
+        carouselView.setPageCount(imagenes.size());
+        carouselView.setImageListener(imageListener());
+        ventana.ActualizarImagenes();
+        //carouselView.removeView(carouselView.getChildAt(carouselView.getCurrentItem()));
     }
 }
 
