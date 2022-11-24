@@ -7,15 +7,71 @@
     tools:context=".MainActivity">
 
 
-
-    <FrameLayout
-        android:id="@+id/panelFragmento"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        tools:layout_editor_absoluteX="-95dp"
+        tools:layout_editor_absoluteY="-44dp">
 
-    </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/panelFragmento"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/LnResultado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <!--Botón: texto del reconocedor de la imagen que tomamos de la cámara, galería-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/recognizeTextBtn"
+                    android:layout_width="match_parent"
+                    app:cornerRadius="5dp"
+                    android:layout_weight="1"
+                    app:icon="@drawable/ic_baseline_document_scanner_24"
+                    android:layout_marginStart="5dp"
+                    android:text="Reconocer Texto"
+                    android:layout_height="match_parent"/>
+
+
+
+                <!-- TextView: etiqueta para mostrar el texto reconocido-->
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:id="@+id/tvEtiqueta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Texto Reconocido:"/>
+                <!-- EditText: mostrar el texto reconocido, puede usar TextView en su lugar-->
+                <EditText
+                    android:id="@+id/recognizedTextEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="12sp">
+                </EditText>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

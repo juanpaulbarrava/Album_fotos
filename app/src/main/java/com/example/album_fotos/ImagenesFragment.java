@@ -1,5 +1,7 @@
 package com.example.album_fotos;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +28,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +46,12 @@ public class ImagenesFragment extends Fragment {
     private ArrayList<Bitmap> fotos = new ArrayList<>();
     private FloatingActionButton fotografiar;
 
+    LinearLayout lnResultado;
+
+
+    public ImagenesFragment(LinearLayout lnResultado){
+        this.lnResultado = lnResultado;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -93,18 +106,45 @@ public class ImagenesFragment extends Fragment {
 
     }
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bitmap image = BitmapFactory.decodeFile(archivo.getAbsolutePath());
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+
+                Bitmap image = BitmapFactory.decodeFile(resultUri.getPath());
                 fotos.add(image);
                 adapter.notifyDataSetChanged();
-            }else{
-                archivo.delete();
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == 1) {
+                if (resultCode == RESULT_OK) {
+                    //Habilitar boton procesar y Extraer Texto
+                    lnResultado.setVisibility(View.VISIBLE);
+
+                    //Agregar a la vista la foto
+                    //Bitmap image = BitmapFactory.decodeFile(archivo.getAbsolutePath());
+                    //ya tenemos la imagen en imageUri usando la función pickImageCamera()
+                    croprequest(Uri.parse( archivo.toURI().toString()));
+
+                }else{
+                    archivo.delete();
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
+
+    }
+
+    //~~~~~~~~~~~~~~Metodo para recortar imagen~~~~~~~~~~~~~~~~~~~~~~~~~//
+    private void croprequest(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .start(getContext(),this);
     }
 
     public File crearFichero() throws IOException{

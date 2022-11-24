@@ -34,8 +34,6 @@ public class Carousel_Imagenes extends DialogFragment {
     //Vistas
     private CarouselView carouselView;
 
-
-
     //Objetos
     private PhotoViewAttacher zoom = null;
     ArrayList<Bitmap> imagenes;

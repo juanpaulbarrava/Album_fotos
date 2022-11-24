@@ -40,4 +40,7 @@ dependencies {
     implementation group:'com.synnapps', name: 'carouselview', version: '0.1.6'
     implementation 'com.commit451:PhotoView:1.2.4'
 
+    //library the crop image
+    implementation 'com.github.alirezaafkar:Android-Image-Cropper:2.3.3'
+
 }
