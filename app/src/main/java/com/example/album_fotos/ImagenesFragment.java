@@ -37,8 +37,8 @@ public class ImagenesFragment extends Fragment {
     private FotoAdapter adapter;
 
     private ArrayList<Bitmap> fotos = new ArrayList<>();
-    private FloatingActionButton fotografiar;
 
+    private File archivo;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -46,10 +46,10 @@ public class ImagenesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_imagenes, container, false);
         //View root = binding.getView().getRootView();
 
-        cargarFotos();
+        //cargarFotos();
 
         Lista_fotos = view.findViewById(R.id.lista_fotos);
-        adapter = new FotoAdapter(fotos, getContext());
+        adapter = new FotoAdapter(this,fotos, getContext());
         Lista_fotos.setLayoutManager(new GridLayoutManager(getContext(), 4));
         Lista_fotos.setAdapter(adapter);
 
@@ -78,7 +78,7 @@ public class ImagenesFragment extends Fragment {
         }
     }
 
-    private File archivo;
+
     public void hacerFoto() {
         try {
             Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -105,6 +105,10 @@ public class ImagenesFragment extends Fragment {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    public  void ActualizarImagenes(){
+        adapter.notifyDataSetChanged();
     }
 
     public File crearFichero() throws IOException{

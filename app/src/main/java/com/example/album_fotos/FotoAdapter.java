@@ -19,8 +19,10 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
 
     private ArrayList<Bitmap> Lista;
     private Context context;
+    ImagenesFragment ventana;
 
-    public FotoAdapter(ArrayList<Bitmap> lista, Context context) {
+    public FotoAdapter(ImagenesFragment ventana,ArrayList<Bitmap> lista, Context context) {
+        this.ventana = ventana;
         Lista = lista;
         this.context = context;
     }
@@ -50,7 +52,7 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
     private void AbrirCarousel_Imagenes(int position)
     {
 
-        Carousel_Imagenes carousel_imagenes = new Carousel_Imagenes(Lista, position);
+        Carousel_Imagenes carousel_imagenes = new Carousel_Imagenes(ventana,Lista, position);
         carousel_imagenes.show(((FragmentActivity) context).getSupportFragmentManager(),"hgy");
     }
 
