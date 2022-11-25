@@ -57,9 +57,6 @@ public class ImagenesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_imagenes, container, false);
-        //View root = binding.getView().getRootView();
-
-        //cargarFotos();
 
         Lista_fotos = view.findViewById(R.id.lista_fotos);
         adapter = new FotoAdapter(this,fotos, getContext());
@@ -91,7 +88,6 @@ public class ImagenesFragment extends Fragment {
         }
     }
 
-
     public void hacerFoto() {
         try {
             Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -121,12 +117,9 @@ public class ImagenesFragment extends Fragment {
         } else {
             if (requestCode == 1) {
                 if (resultCode == RESULT_OK) {
-                    //Habilitar boton procesar y Extraer Texto
+                    //Habilitar LinearLayout para hacer visible boton procesar y Extraer Texto, TextView para mostrar texto de extraccion
                     lnResultado.setVisibility(View.VISIBLE);
-
-                    //Agregar a la vista la foto
-                    //Bitmap image = BitmapFactory.decodeFile(archivo.getAbsolutePath());
-                    //ya tenemos la imagen en imageUri usando la función pickImageCamera()
+                    //convertir imagen Uri y posterior a recortar imagen
                     croprequest(Uri.parse( archivo.toURI().toString()));
 
                 }else{
@@ -156,6 +149,11 @@ public class ImagenesFragment extends Fragment {
         File directorio=getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File img=File.createTempFile( pre + UUID.randomUUID().toString(), "jpg", directorio);
         return img;
+    }
+
+
+    public ArrayList<Bitmap> ObtenerImagenes(){
+        return fotos;
     }
 
     @Override

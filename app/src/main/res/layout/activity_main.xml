@@ -25,9 +25,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-
-
             </FrameLayout>
 
             <LinearLayout
@@ -46,13 +43,10 @@
                     android:layout_marginStart="5dp"
                     android:text="Reconocer Texto"
                     android:layout_height="match_parent"/>
-
-
-
                 <!-- TextView: etiqueta para mostrar el texto reconocido-->
                 <TextView
                     style="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:id="@+id/tvEtiqueta"
+                    android:id="@+id/tvMostrartext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -66,10 +60,7 @@
                 </EditText>
             </LinearLayout>
 
-
-
         </LinearLayout>
-
 
     </ScrollView>
 
