@@ -28,12 +28,11 @@ import com.synnapps.carouselview.CarouselView;
 import java.util.ArrayList;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
-
+//clase publica accesible desde cualquier otra clase
 public class Carousel_Imagenes extends DialogFragment {
 
     //Vistas
     private CarouselView carouselView;
-
     //Objetos
     private PhotoViewAttacher zoom = null;
     ArrayList<Bitmap> imagenes;
@@ -42,23 +41,22 @@ public class Carousel_Imagenes extends DialogFragment {
 
 
     public Carousel_Imagenes(ImagenesFragment ventana,ArrayList<Bitmap> imagenes, int position) {
-        this.ventana = ventana;
-        this.position = position;
-        this.imagenes = imagenes;
+        this.ventana = ventana; //hace referencia al objeto actual de la clase en este caso ventana
+        this.position = position; //hace referencia al objeto actual de la clase
+        this.imagenes = imagenes; //hace referencia al objeto actual de la clase
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
-
         Dialog dialog = getDialog();
         if (dialog != null && dialog.getWindow() != null)
             dialog.getWindow().setLayout(width, height);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) { //Metodo visible en cualquier clase onCreate fragmento debe diseñar la interfaz de usuario por primera vez
         View view = inflater.inflate(R.layout.fragment_carousel_imagenes, container, false);
         Button regresar = view.findViewById(R.id.boton_salir_carousel);
         Button eliminar = view.findViewById(R.id.eliminar_imagen_actual);
-        regresar.setOnClickListener(view1 -> dismiss());
+        regresar.setOnClickListener(view1 -> dismiss()); // muestra lista tradicional desaparece la vista
         eliminar.setOnClickListener(view1 -> dismiss());
         eliminar.setOnClickListener(imagenes -> EliminarImagen());
 
@@ -70,7 +68,7 @@ public class Carousel_Imagenes extends DialogFragment {
         carouselView.setCurrentItem(position);
         return view;
     }
-
+    //metodo visible dentro de la clase donde manda llamar la imagen y retornara una position
     private ImageListener imageListener() {
         return (position, imageView) ->
         {
@@ -81,13 +79,21 @@ public class Carousel_Imagenes extends DialogFragment {
             zoom = new PhotoViewAttacher(imageView);
         };
     }
-
+  //Metodo solo puede usarse dentro de la misma clase del button void no regresa nada
     private  void EliminarImagen(){
-        imagenes.remove(carouselView.getCurrentItem());
-        carouselView.setPageCount(imagenes.size());
-        carouselView.setImageListener(imageListener());
-        ventana.ActualizarImagenes();
-        //carouselView.removeView(carouselView.getChildAt(carouselView.getCurrentItem()));
+        //condicion para que no haga nada el botton despues de eliminar imagenes
+        if (imagenes.size() == 0)
+        {
+            Toast.makeText(getContext(), "No tiene imagenes", Toast.LENGTH_LONG).show();
+
+        }
+        else {
+            imagenes.remove(carouselView.getCurrentItem()); //retira una imagen de carousel y la obtienen al articulo actual
+            carouselView.setPageCount(imagenes.size()); //pone numero de imagenes  y el tamaño
+            carouselView.setImageListener(imageListener()); //manda llamar la imagen que seleccionamos
+            ventana.ActualizarImagenes(); //se actualiza las imagenes
+            //carouselView.removeView(carouselView.getChildAt(carouselView.getCurrentItem()));
+        }
     }
 }
 

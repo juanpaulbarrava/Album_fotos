@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+ // se usa en botton de reconocimiento  y hacer referencia a la clase reconocerText y muestre un resultado
         Button recognizeTextBtn = this.findViewById(R.id.recognizeTextBtn);
         LinearLayout lnResultado = this.findViewById(R.id.LnResultado);
 

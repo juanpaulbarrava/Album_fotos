@@ -45,7 +45,8 @@
                 android:background="@android:color/holo_red_light"
                 android:text="Eliminar"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="ButtonStyle" />
 
             <Button
                 android:id="@+id/boton_salir_carousel"
