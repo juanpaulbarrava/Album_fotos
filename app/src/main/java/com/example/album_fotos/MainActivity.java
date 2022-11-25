@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         ProgressDialog progressDialog;
 
+        ArrayList<String> textoReconocido;
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(MainActivity.this,
@@ -114,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            textoReconocido = new ArrayList<String>();
+
             for (Bitmap imagen: imagenes)
             {
                 try {
@@ -131,8 +134,11 @@ public class MainActivity extends AppCompatActivity {
                                     String recognizedText = text.getText();
                                     Log.d(TAG, "onSuccess: recognizedText: "+recognizedText);
                                     //establecer el texto reconocido para editar texto
-       //pasar a un vector checar que no se repitan valores y si se repiten eliminar para que solo quede un valor
-                                    tvMostrartext.append(recognizedText+"\n");
+                                     //pasar a un vector los valores
+                                    String[] lineas = recognizedText.split("\n");
+
+                                    for(String linea: lineas)
+                                        textoReconocido.add(linea.replace(" ",""));
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -157,8 +163,36 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             // execution of result of Long time consuming operation
+            EliminarRepetidos();
+            tvMostrartext.setText(ObtenerTexto());
             progressDialog.dismiss();
+
         }
+
+        private void EliminarRepetidos(){
+            // Crear lista de duplicados nueva
+            ArrayList<String> sinDuplicados = new ArrayList<String>();
+            if (textoReconocido != null){
+                if (textoReconocido.size() > 1){
+                    //si esta lista no esta presente en la nueva lista
+                    for (String Element:textoReconocido) {
+                        //contains retorna true si el elemento pasado se encuentra en la lista, añadirlo
+                        if(!sinDuplicados.contains(Element)){
+                            sinDuplicados.add(Element);
+                        }
+                    }
+                    textoReconocido = sinDuplicados;
+                }
+            }
+        }
+
+        private String ObtenerTexto(){
+            String resultado = "";
+            for (String Element:textoReconocido)
+                resultado+=(Element+"\n");
+            return resultado;
+        }
+
 
         @Override
         protected void onProgressUpdate(String... text) {
