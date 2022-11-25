@@ -33,6 +33,7 @@ public class Carousel_Imagenes extends DialogFragment {
 
     //Vistas
     private CarouselView carouselView;
+
     //Objetos
     private PhotoViewAttacher zoom = null;
     ArrayList<Bitmap> imagenes;
@@ -56,9 +57,9 @@ public class Carousel_Imagenes extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_carousel_imagenes, container, false);
         Button regresar = view.findViewById(R.id.boton_salir_carousel);
         Button eliminar = view.findViewById(R.id.eliminar_imagen_actual);
-        regresar.setOnClickListener(view1 -> dismiss()); // muestra lista tradicional desaparece la vista
-        eliminar.setOnClickListener(view1 -> dismiss());
-        eliminar.setOnClickListener(imagenes -> EliminarImagen());
+        regresar.setOnClickListener(view1 -> dismiss()); // muestra lista tradicional desaparece la vista y se regresa
+        eliminar.setOnClickListener(view2 -> EliminarImagen()); //se elimina la imagen que ya no queremos
+
 
         carouselView = view.findViewById(R.id.carousel);
 
@@ -80,19 +81,22 @@ public class Carousel_Imagenes extends DialogFragment {
         };
     }
   //Metodo solo puede usarse dentro de la misma clase del button void no regresa nada
-    private  void EliminarImagen(){
-        //condicion para que no haga nada el botton despues de eliminar imagenes
-        if (imagenes.size() == 0)
-        {
-            Toast.makeText(getContext(), "No tiene imagenes", Toast.LENGTH_LONG).show();
-
-        }
-        else {
+    private  void EliminarImagen() {
+        //condicion para que no haga nada el botton despues de eliminar imagenes y cierre view
+        if (imagenes.size() == 0) { //al dar clic en eliminar se iran eliminando miestras halla imagenes sea mayor a 0
+            Toast.makeText(getContext(), "No tiene imagenes", Toast.LENGTH_LONG).show(); //si hay fotos una vez se borre y si ya no hay muestre el mensaje
+         //si aun hay imagenes las muestra hasta que ya se eliminen todas se cierre ventana
+        } else {
             imagenes.remove(carouselView.getCurrentItem()); //retira una imagen de carousel y la obtienen al articulo actual
             carouselView.setPageCount(imagenes.size()); //pone numero de imagenes  y el tamaño
             carouselView.setImageListener(imageListener()); //manda llamar la imagen que seleccionamos
             ventana.ActualizarImagenes(); //se actualiza las imagenes
             //carouselView.removeView(carouselView.getChildAt(carouselView.getCurrentItem()));
+
+            if (imagenes.size() == 0)
+                dismiss();
+
+
         }
     }
 }
