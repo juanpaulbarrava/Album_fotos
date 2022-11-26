@@ -41,12 +41,7 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
 
         holder.image.setOnClickListener(view -> {
             AbrirCarousel_Imagenes(position);
-
-        }
-        );
-
-
-
+        });
     }
  //Metodo que solo puede usarse dentro de la misma clase
     private void AbrirCarousel_Imagenes(int position)
@@ -54,7 +49,6 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
         Carousel_Imagenes carousel_imagenes = new Carousel_Imagenes(ventana,Lista, position);
         carousel_imagenes.show(((FragmentActivity) context).getSupportFragmentManager(),"hgy");
     }
-
 
     @Override //Metodo que puede ser usada por cualquier clase en cualquier paquete
     public int getItemCount() {
