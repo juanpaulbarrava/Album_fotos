@@ -60,9 +60,7 @@ public class Carousel_Imagenes extends DialogFragment {
         regresar.setOnClickListener(view1 -> dismiss()); // muestra lista tradicional desaparece la vista y se regresa cierra ventana
         eliminar.setOnClickListener(view2 -> EliminarImagen()); //se elimina la imagen que ya no queremos
 
-
         carouselView = view.findViewById(R.id.carousel);
-
         carouselView.setFillColor(Color.rgb(117, 245, 66));
         carouselView.setPageCount(imagenes.size());
         carouselView.setImageListener(imageListener());
@@ -95,8 +93,6 @@ public class Carousel_Imagenes extends DialogFragment {
 
             if (imagenes.size() == 0)
                 dismiss(); //dismiss cerrar ventanas
-
-
         }
     }
 }
