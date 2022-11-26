@@ -140,7 +140,7 @@ public class ImagenesFragment extends Fragment {
         return img;
     }
 
-
+    //declarar metodo publico para pasar arreglo a otro activity
     public ArrayList<Bitmap> ObtenerImagenes(){
         return fotos;
     }

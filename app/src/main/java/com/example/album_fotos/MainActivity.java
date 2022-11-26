@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         //init TextRecognizer
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
+
         ImagenesFragment fragment= new ImagenesFragment(lnResultado);
         getSupportFragmentManager().beginTransaction().replace(R.id.panelFragmento,fragment,fragment.getClass().getSimpleName()).addToBackStack(null).commit();
 
@@ -68,16 +69,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //obtenemos de
+                //obtenemos de de imagenesFramegment la lista de imagenes
                 imagenes = fragment.ObtenerImagenes();
 
-                //compruebe si se selecciona la imagen si imageUri no es nulo
+                //compruebe si se selecciona la imagen si la lista no es nulo
                 if (imagenes == null){
-                    //imageUri es nulo, lo que significa que aún no hemos elegido la imagen, no podemos reconocer el texto
+                    //imagenes es nulo, lo que significa que aún no hemos elegido la imagen, no podemos reconocer el texto
                     Toast.makeText(MainActivity.this, "Elige primero la imagen", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    //image Uri no es nulo, lo que significa que hemos elegido la imagen, podemos reconocer el texto
+                    //imagenes no es nulo, lo que significa que hemos elegido la imagen, podemos reconocer el texto
                      recognizeTextFromImage();
                 }
             }
@@ -87,14 +88,17 @@ public class MainActivity extends AppCompatActivity {
     //~~~~~~~~~~~~Metodo reconocer texto de photo~~~~~~~~~~~~~~~~~//
     private void recognizeTextFromImage() {
 
+        //Mandamos llamar la clase AsyncTaskRunner
         AsyncTaskRunner runner = new AsyncTaskRunner();
         runner.execute();
     }
-
+    //clase abstracta para tareas pesadas en segundo
+    // plano y se ejecuta en un solo hilo cuando se inicia
     private class AsyncTaskRunner extends AsyncTask<String, String, String> {
 
         ProgressDialog progressDialog;
 
+        //creamos lista para guardar el texto reconocido
         ArrayList<String> textoReconocido;
         @Override
         protected void onPreExecute() {
@@ -114,13 +118,14 @@ public class MainActivity extends AppCompatActivity {
                     tvMostrartext.setText("");
                 }
             });
-
+            //init arreglo
             textoReconocido = new ArrayList<String>();
 
+            //la lista "imagenes" pasa a "imagen" una por una
             for (Bitmap imagen: imagenes)
             {
                 try {
-                    //Prepare InputImage from image uri
+                    //Prepara InputImage from imagen
                     InputImage inputImage = InputImage.fromBitmap(imagen,0);
                     //imagen preparada, estamos a punto de iniciar el proceso de reconocimiento de texto, cambiar el mensaje de progreso
 
@@ -129,14 +134,15 @@ public class MainActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Text>() {
                                 @Override
                                 public void onSuccess(Text text) {
-                                    //proceso completado, cerrar cuadro de diálogo
+                                    //proceso completado
                                     //obtener el texto reconocido
                                     String recognizedText = text.getText();
                                     Log.d(TAG, "onSuccess: recognizedText: "+recognizedText);
                                     //establecer el texto reconocido para editar texto
-                                     //pasar a un vector los valores
+                                     //pasar a un vector los valores y hacer salto de linea
                                     String[] lineas = recognizedText.split("\n");
-
+                                    //pasa "Lineas" a un vector tipo String "linea" para recorrer y ver
+                                    // si hay espacios y remplazarlos por "" nada para quitarlos
                                     for(String linea: lineas)
                                         textoReconocido.add(linea.replace(" ",""));
                                 }
@@ -156,19 +162,21 @@ public class MainActivity extends AppCompatActivity {
                 {
                 }
             }
+            //cerrar dialogo de cargando proceso
             progressDialog.dismiss();
             return "";
         }
 
         @Override
         protected void onPostExecute(String result) {
-            // execution of result of Long time consuming operation
+            // El resultado del metodo "doInBackground" se pasa a este método
             EliminarRepetidos();
             tvMostrartext.setText(ObtenerTexto());
             progressDialog.dismiss();
 
         }
 
+        //método sólo es visible dentro de la clase donde se define
         private void EliminarRepetidos(){
             // Crear lista de duplicados nueva
             ArrayList<String> sinDuplicados = new ArrayList<String>();
@@ -185,9 +193,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-
+        //metodo
         private String ObtenerTexto(){
+            //declaro array vacio
             String resultado = "";
+            //obtener de "textoReconocido" cada elemento y darle salto de linea para mostrarlo
             for (String Element:textoReconocido)
                 resultado+=(Element+"\n");
             return resultado;
