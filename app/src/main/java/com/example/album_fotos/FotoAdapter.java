@@ -17,7 +17,7 @@ import java.util.List;
 
 public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
 // Variables
-    private ArrayList<Bitmap> Lista;
+    private ArrayList<Bitmap> Lista; //ArrayList clase permite almacenar datos en memoria de forma similar a los Arrays, con ventaja de el numero de elementos que almacena de forma dinamica
     private Context context;
     ImagenesFragment ventana;
 // Metodo hacer visible la ventana en cualquier clase
@@ -30,7 +30,7 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.ViewHolder> {
     @NonNull
     @Override //Metodo de clase principal que sobreescribira en ese momento
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(context).inflate(R.layout.item_foto, parent, false);
+        View v= LayoutInflater.from(context).inflate(R.layout.item_foto, parent, false); //Tiene una referencia/instanciar un layout xml para poder utilizar las vistas
         return new ViewHolder(v); //retornar una nueva vista
     }
 

@@ -45,7 +45,7 @@ public class Carousel_Imagenes extends DialogFragment {
         this.ventana = ventana; //hace referencia al objeto actual de la clase en este caso ventana
         this.position = position; //hace referencia al objeto actual de la clase
         this.imagenes = imagenes; //hace referencia al objeto actual de la clase
-        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int width = ViewGroup.LayoutParams.MATCH_PARENT; //MATCH_PARENT hace que la vista se expanda lo mas posible dentro de la vista principal
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
         Dialog dialog = getDialog();
         if (dialog != null && dialog.getWindow() != null)
@@ -54,10 +54,10 @@ public class Carousel_Imagenes extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) { //Metodo visible en cualquier clase onCreate fragmento debe diseñar la interfaz de usuario por primera vez
-        View view = inflater.inflate(R.layout.fragment_carousel_imagenes, container, false);
+        View view = inflater.inflate(R.layout.fragment_carousel_imagenes, container, false); //inflater se utiliza para instnciar el contenido de los archivos XML de diseño
         Button regresar = view.findViewById(R.id.boton_salir_carousel);
         Button eliminar = view.findViewById(R.id.eliminar_imagen_actual);
-        regresar.setOnClickListener(view1 -> dismiss()); // muestra lista tradicional desaparece la vista y se regresa
+        regresar.setOnClickListener(view1 -> dismiss()); // muestra lista tradicional desaparece la vista y se regresa cierra ventana
         eliminar.setOnClickListener(view2 -> EliminarImagen()); //se elimina la imagen que ya no queremos
 
 
@@ -94,7 +94,7 @@ public class Carousel_Imagenes extends DialogFragment {
             //carouselView.removeView(carouselView.getChildAt(carouselView.getCurrentItem()));
 
             if (imagenes.size() == 0)
-                dismiss();
+                dismiss(); //dismiss cerrar ventanas
 
 
         }
