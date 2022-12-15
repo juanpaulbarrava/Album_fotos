@@ -3,9 +3,14 @@ package com.example.album_fotos;
 import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.CrossProfileApps;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.RotateDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,6 +18,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,15 +31,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 //Metodo accesible desde cualquier otra clase
@@ -41,6 +49,7 @@ public class ImagenesFragment extends Fragment {
     //Metodo visible dentro de la clase donde se define
     private ImagenesFragment binding;
     private RecyclerView Lista_fotos;
+    private ItemTouchHelper itemTouchHelper;
     private FotoAdapter adapter;
 
     private ArrayList<Bitmap> fotos = new ArrayList<>();
@@ -48,10 +57,13 @@ public class ImagenesFragment extends Fragment {
     private File archivo;
     LinearLayout lnResultado;
 
+
  //Metodo visible en cualquier clase
     public ImagenesFragment(LinearLayout lnResultado){
+
         this.lnResultado = lnResultado;
     }
+
 
     @Override //Metodo que esta en la clase principal y se sobreescribira en ese momento
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -65,11 +77,16 @@ public class ImagenesFragment extends Fragment {
         adapter = new FotoAdapter(this,fotos, getContext());
         Lista_fotos.setLayoutManager(new GridLayoutManager(getContext(), 4));
         Lista_fotos.setAdapter(adapter);
+        //activar clase  desplazar fotos para organizarlas
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(Lista_fotos);
+
        // destacar la accion principal de una pantalla siempre y cuando contituya una operacion habitual natural
         FloatingActionButton btn=view.findViewById(R.id.fotografiar);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override              //Metodo main no retorna ninguna vista al hacer clic
-            public void onClick(View view) {hacerFoto();}
+            public void onClick(View view)
+            {hacerFoto();}
         });
 
         //retornar vista
@@ -92,8 +109,8 @@ public class ImagenesFragment extends Fragment {
     }
     @Override //Metodo que esta en la clase principal y se sobreescribira en ese momento
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {  //condicion
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {  //condicion
+            /*CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri(); // Identificador uniforme de recursos
 
@@ -102,7 +119,7 @@ public class ImagenesFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
-            }
+            }*/
         } else {
             if (requestCode == 1) {
                 if (resultCode == RESULT_OK) {
@@ -123,10 +140,20 @@ public class ImagenesFragment extends Fragment {
 
     //~~~~~~~~~~~~~~Metodo para recortar imagen~~~~~~~~~~~~~~~~~~~~~~~~~//
     private void croprequest(Uri imageUri) {
-        CropImage.activity(imageUri)
+        /*CropImage.ActivityResult(imageUri)
+                .setActivityMenuIconColor(Color.BLACK)
+                .setActivityTitle("Foto Capturada")
                 .setGuidelines(CropImageView.Guidelines.ON)
+                .setBorderLineColor(Color.WHITE)
+                .setGuidelinesColor(Color.WHITE)
                 .setMultiTouchEnabled(true)
-                .start(getContext(),this);
+                .start(getContext(),this);*/
+
+        Intent intent = new Intent(getView().getContext(), Crop_Image_View.class);
+        intent.putExtra("imageUri", imageUri);
+        startActivityForResult(intent, 1446);
+
+
     }
 
     public  void ActualizarImagenes(){
@@ -151,4 +178,20 @@ public class ImagenesFragment extends Fragment {
         binding = null;
 
     }
+    //***************clase mover fotos para su acomodo************
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            int posicionAnterior = viewHolder.getAdapterPosition();
+            int posicionNueva = target.getAdapterPosition();
+            Collections.swap(fotos, posicionAnterior, posicionNueva);
+            recyclerView.getAdapter().notifyItemMoved(posicionAnterior, posicionNueva);
+            return false;
+        }
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+        }
+    };
+
 }
+
