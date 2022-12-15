@@ -2,6 +2,7 @@ package com.example.album_fotos;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -35,12 +37,10 @@ public class Crop_Image_View extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       // View view = inflater.inflate(R.layout.activity_crop_image_view, container, false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_image_view);
         cropImageView = this.findViewById(R.id.cropImageView);
-       // Button regresar = view.findViewById(R.id.btnRegresar);
-       // regresar.setOnClickListener(view1 -> dismiss());
+
 
         //cropImageView.setGuidelines(CropImageView.Guidelines.ON);
         cropImageView.setGuidelines(CropImageView.Guidelines.ON);
@@ -55,6 +55,25 @@ public class Crop_Image_View extends AppCompatActivity {
             Uri imageUri = obp.getParcelable("imageUri");
             cropImageView.setImageUriAsync(imageUri);
         }
+
+        ImageButton regresar = this.findViewById(R.id.imgBtnRegresar);
+        regresar.setOnClickListener(new View.OnClickListener() {
+            @Override              //Metodo main no retorna ninguna vista al hacer clic
+            public void onClick(View view) {
+                onBackPressed();
+                //Intent intent = new Intent(Crop_Image_View.this, ImagenesFragment.class);
+                //startActivity(intent);
+            }
+        });
+
+        Button listo = this.findViewById(R.id.btnListo);
+        listo.setOnClickListener(new View.OnClickListener() {
+            @Override              //Metodo main no retorna ninguna vista al hacer clic
+            public void onClick(View view)
+            {
+                Bitmap bitmap = cropImageView.getCroppedImage();
+            }
+        });
 
         FloatingActionButton rotarIzquierda = this.findViewById(R.id.rotarIzquierda);
         rotarIzquierda.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +93,7 @@ public class Crop_Image_View extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton resetear = this.findViewById(R.id.resetear);
+        FloatingActionButton resetear = this.findViewById(R.id.btnResetear);
         resetear.setOnClickListener(new View.OnClickListener() {
             @Override              //Metodo main no retorna ninguna vista al hacer clic
             public void onClick(View view)
@@ -83,13 +102,15 @@ public class Crop_Image_View extends AppCompatActivity {
             }
         });
 
-        /*FloatingActionButton listo = this.findViewById(R.id.listo);
-        listo.setOnClickListener(new View.OnClickListener() {
+        ImageButton imgBtnRotar90 = this.findViewById(R.id.imgBtnRotar90);
+        imgBtnRotar90.setOnClickListener(new View.OnClickListener() {
             @Override              //Metodo main no retorna ninguna vista al hacer clic
             public void onClick(View view)
             {
-
+                cropImageView.rotateImage(90);
             }
-        });*/
+        });
+
+
     }
 }

@@ -18,7 +18,7 @@
             android:layout_height="?attr/actionBarSize">
 
             <ImageButton
-                android:id="@+id/btnRegresar"
+                android:id="@+id/imgBtnRegresar"
                 android:layout_width="?actionBarSize"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -49,7 +49,7 @@
 
                 />
             <ImageButton
-                android:id="@+id/btnRotar90"
+                android:id="@+id/imgBtnRotar90"
                 android:layout_width="?actionBarSize"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -98,7 +98,7 @@
             android:gravity="end">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/resetear"
+                android:id="@+id/btnResetear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/deshacer48"

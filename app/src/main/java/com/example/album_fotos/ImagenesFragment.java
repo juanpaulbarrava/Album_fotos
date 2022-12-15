@@ -109,7 +109,9 @@ public class ImagenesFragment extends Fragment {
     }
     @Override //Metodo que esta en la clase principal y se sobreescribira en ese momento
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {  //condicion
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+
+            //condicion
             /*CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri(); // Identificador uniforme de recursos
