@@ -35,9 +35,12 @@ public class Crop_Image_View extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+       // View view = inflater.inflate(R.layout.activity_crop_image_view, container, false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_image_view);
         cropImageView = this.findViewById(R.id.cropImageView);
+       // Button regresar = view.findViewById(R.id.btnRegresar);
+       // regresar.setOnClickListener(view1 -> dismiss());
 
         //cropImageView.setGuidelines(CropImageView.Guidelines.ON);
         cropImageView.setGuidelines(CropImageView.Guidelines.ON);
