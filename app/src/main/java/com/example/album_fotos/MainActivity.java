@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //obtenemos de de imagenesFramegment la lista de imagenes
+                //obtenemos de imagenesFramegment la lista de imagenes
                 imagenes = fragment.ObtenerImagenes();
 
                 //compruebe si se selecciona la imagen si la lista no es nulo

@@ -72,22 +72,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
         android:gravity="start">
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/rotarIzquierda"
+            android:id="@+id/btnRotarIzquierda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:src="@drawable/ic_baseline_rotate_left_24"
             />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/rotarDerecha"
+            android:id="@+id/btnRotarDerecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_margin="5dp"
             android:src="@drawable/ic_baseline_rotate_right_24"
             />
 
@@ -101,6 +102,7 @@
                 android:id="@+id/btnResetear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:src="@drawable/deshacer48"
 
                 />

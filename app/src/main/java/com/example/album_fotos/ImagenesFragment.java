@@ -34,9 +34,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.canhub.cropper.CropImage;
-import com.canhub.cropper.CropImageView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +63,6 @@ public class ImagenesFragment extends Fragment {
         this.lnResultado = lnResultado;
     }
 
-
     @Override //Metodo que esta en la clase principal y se sobreescribira en ese momento
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {    //Metodo que se utiliza para construir y añadir las views a los diseños de (Fragment, Adapter, Dialogs, Menu o ActionBar)
@@ -74,12 +72,13 @@ public class ImagenesFragment extends Fragment {
         // fotos hace referencia al objeto actual de la clase
 
         Lista_fotos = view.findViewById(R.id.lista_fotos);
-        adapter = new FotoAdapter(this,fotos, getContext());
+        adapter = new FotoAdapter(this, fotos, getContext());
         Lista_fotos.setLayoutManager(new GridLayoutManager(getContext(), 4));
         Lista_fotos.setAdapter(adapter);
         //activar clase  desplazar fotos para organizarlas
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(Lista_fotos);
+
 
        // destacar la accion principal de una pantalla siempre y cuando contituya una operacion habitual natural
         FloatingActionButton btn=view.findViewById(R.id.fotografiar);
@@ -109,19 +108,17 @@ public class ImagenesFragment extends Fragment {
     }
     @Override //Metodo que esta en la clase principal y se sobreescribira en ese momento
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-
+        if (requestCode == 1446) {
             //condicion
-            /*CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri(); // Identificador uniforme de recursos
+                String result = data.getData().toString();
+
+                Uri resultUri = Uri.parse(result);
 
                 Bitmap image = BitmapFactory.decodeFile(resultUri.getPath()); //mapa de bits
                 fotos.add(image);
                 adapter.notifyDataSetChanged();
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }*/
+            }
         } else {
             if (requestCode == 1) {
                 if (resultCode == RESULT_OK) {
@@ -142,20 +139,10 @@ public class ImagenesFragment extends Fragment {
 
     //~~~~~~~~~~~~~~Metodo para recortar imagen~~~~~~~~~~~~~~~~~~~~~~~~~//
     private void croprequest(Uri imageUri) {
-        /*CropImage.ActivityResult(imageUri)
-                .setActivityMenuIconColor(Color.BLACK)
-                .setActivityTitle("Foto Capturada")
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setBorderLineColor(Color.WHITE)
-                .setGuidelinesColor(Color.WHITE)
-                .setMultiTouchEnabled(true)
-                .start(getContext(),this);*/
 
         Intent intent = new Intent(getView().getContext(), Crop_Image_View.class);
         intent.putExtra("imageUri", imageUri);
         startActivityForResult(intent, 1446);
-
-
     }
 
     public  void ActualizarImagenes(){
@@ -194,6 +181,7 @@ public class ImagenesFragment extends Fragment {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         }
     };
+
 
 }
 

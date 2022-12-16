@@ -18,7 +18,7 @@
         <activity
             android:name=".Crop_Image_View"
             android:exported="false"
-            android:label="@string/title_activity_crop_image_view"
+            android:label="Crop_Image_View"
             android:theme="@style/Theme.Album_fotos.NoActionBar" >
             <meta-data
                 android:name="android.app.lib_name"

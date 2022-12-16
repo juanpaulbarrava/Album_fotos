@@ -50,7 +50,7 @@ dependencies {
     //Library Text Recognition
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.2'
     //library the crop image
-   implementation 'com.vanniktech:android-image-cropper:4.5.0'
+    implementation 'com.vanniktech:android-image-cropper:4.5.0'
     //library CropImageView
    // implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.+'
    // implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1"
